@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 app.use(
   cors({
-    origin: true,
+    origin: "https://spider-murat.netlify.app",
     credentials: true,
   })
 );
