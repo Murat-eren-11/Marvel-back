@@ -4,12 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
-app.use(
-  cors({
-    origin: "https://spider-murat.netlify.app",
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect("mongodb://localhost:27017/");
