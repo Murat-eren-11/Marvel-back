@@ -84,11 +84,13 @@ router.post("/favorite", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    const { comicId, characterId } = req.body;
+
     // on verifie d'abord si le favori existe déjà pour éviter les doublons
     const existingFavorite = await Favorite.findOne({
       $or: [
-        ...(comicId ? [{ comicId: comicId }] : []),
-        ...(characterId ? [{ characterId: characterId }] : []),
+        ...(comicId ? [{ comicId }] : []),
+        ...(characterId ? [{ characterId }] : []),
       ],
     });
     if (existingFavorite) {
