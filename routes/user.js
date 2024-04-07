@@ -141,11 +141,8 @@ router.get("/favorite", async (req, res) => {
 
 router.get("/user", async (req, res) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
   const tokenUser = authHeader && authHeader.split(" ")[1];
-  console.log(tokenUser);
   const findUser = await User.findOne({ token: tokenUser });
-  console.log(findUser);
   if (!findUser) {
     return res.status(404).json({ message: "Utilisateur non trouvé" });
   }
