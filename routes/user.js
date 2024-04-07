@@ -38,7 +38,8 @@ router.post("/signup", async (req, res) => {
 
     res.cookie("marvel-token", newUser.token, {
       httpOnly: true,
-      secure: false,
+      secure: true,
+      sameSite: "None",
     });
 
     res.status(200).json("Compte créé avec succès " + newUser.username);
