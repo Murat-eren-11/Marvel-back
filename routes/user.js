@@ -75,6 +75,7 @@ router.post("/favorite", async (req, res) => {
   try {
     const { comicId, characterId } = req.body;
     const token = req.cookies["marvel-token"];
+    console.log(token);
     if (!token) {
       return res.status(401).json({ message: "User not authenticated" });
     }
