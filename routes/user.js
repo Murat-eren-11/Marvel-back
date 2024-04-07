@@ -145,7 +145,8 @@ router.get("/favorite", async (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  const tokenUser = req.cookies["marvel-token"];
+  const authHeader = req.headers.authorization;
+  const tokenUser = authHeader && authHeader.split(" ")[1];
   const findUser = await User.findOne({ token: tokenUser });
 
   if (!findUser) {
