@@ -76,7 +76,6 @@ router.post("/favorite", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1]; // Extrait le token
-    console.log(token);
     if (!token) {
       return res.status(401).json({ message: "User not authenticated" });
     }
@@ -115,7 +114,8 @@ router.post("/favorite", async (req, res) => {
 router.get("/favorite", async (req, res) => {
   try {
     // Remplacez 'userToken' par votre méthode d'authentification
-    const userToken = req.cookies["marvel-token"];
+    const authHeader = req.headers.authorization;
+    const userToken = authHeader && authHeader.split(" ")[1];
     const user = await User.findOne({ token: userToken }).populate("favorites");
 
     if (!user) {
