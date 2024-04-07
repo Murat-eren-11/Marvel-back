@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
 router.post("/favorite", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(" ")[1]; // Extrait le token
+    const token = authHeader && authHeader.split(" ")[1];
     if (!token) {
       return res.status(401).json({ message: "User not authenticated" });
     }
@@ -85,7 +85,6 @@ router.post("/favorite", async (req, res) => {
     }
     const { comicId, characterId } = req.body;
 
-    // on verifie d'abord si le favori existe déjà pour éviter les doublons
     const existingFavorite = await Favorite.findOne({
       $or: [
         ...(comicId ? [{ comicId }] : []),
@@ -96,7 +95,6 @@ router.post("/favorite", async (req, res) => {
       return res.status(409).json({ message: "Favorite already exists" });
     }
 
-    // on créé un favori avec soit comicId soit characterId, pas les deux
     const favorite = new Favorite({ comicId, characterId });
     await favorite.save();
 
@@ -110,10 +108,8 @@ router.post("/favorite", async (req, res) => {
   }
 });
 
-// Endpoint pour obtenir les favoris enrichis d'un utilisateur
 router.get("/favorite", async (req, res) => {
   try {
-    // Remplacez 'userToken' par votre méthode d'authentification
     const authHeader = req.headers.authorization;
     const userToken = authHeader && authHeader.split(" ")[1];
     const user = await User.findOne({ token: userToken }).populate("favorites");
@@ -122,7 +118,6 @@ router.get("/favorite", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Pour chaque favori, faites une requête à l'API Marvel pour obtenir les détails
     const favoritesDetails = await Promise.all(
       user.favorites.map(async (favorite) => {
         let apiUrl;
@@ -133,7 +128,7 @@ router.get("/favorite", async (req, res) => {
         }
 
         const response = await axios.get(apiUrl);
-        return response.data; // Assurez-vous que cela correspond à la structure de données que vous attendez
+        return response.data;
       })
     );
 
