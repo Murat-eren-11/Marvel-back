@@ -140,7 +140,6 @@ router.get("/favorite", async (req, res) => {
 });
 
 router.get("/user", async (req, res) => {
-  console.log(req.headers.authorization);
   const authHeader = req.headers.authorization;
   const tokenUser = authHeader && authHeader.split(" ")[1];
   const findUser = await User.findOne({ token: tokenUser });
