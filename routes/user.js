@@ -3,7 +3,7 @@ const uid2 = require("uid2");
 const SHA256 = require("crypto-js/sha256");
 const encBase64 = require("crypto-js/enc-base64");
 const router = express.Router();
-const cookieParser = require("cookie-parser"); // Import du middleware cookie-parser
+const cookieParser = require("cookie-parser");
 const axios = require("axios");
 
 const User = require("../models/User");
@@ -153,12 +153,11 @@ router.get("/user", async (req, res) => {
   }
 
   const usernameRegex = new RegExp(
-    ["tom", "alexis", "lucas", "murat"].join("|"),
+    ["tom", "alexis", "lucas", "murat", "antoine"].join("|"),
     "i"
-  ); // "i" pour ignorer la casse
+  );
 
-  // Tester le nom d'utilisateur avec la regex, en retirant d'abord les chiffres
-  const usernameWithoutDigits = findUser.username.replace(/\d/g, ""); // Supprime tous les chiffres
+  const usernameWithoutDigits = findUser.username.replace(/\d/g, "");
 
   if (usernameRegex.test(usernameWithoutDigits)) {
     res.status(200).json({
